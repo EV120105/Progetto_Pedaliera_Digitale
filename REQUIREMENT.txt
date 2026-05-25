@@ -1,0 +1,15 @@
+# Motore Audio e Lettura Metadati
+pygame-ce 2.5.7
+tinytag 2.2.1
+
+# Interfaccia Grafica (GUI) 
+PyQt6 6.11.0
+PyQt6-Qt6 6.11.1
+PyQt6_sip 13.11.1
+
+# Calcolo Matematico (DSP) 
+numpy 2.4.5
+
+NOTA: è necessario avere delle tracce
+audio all'interno del PC affinché
+il software possa funzionare

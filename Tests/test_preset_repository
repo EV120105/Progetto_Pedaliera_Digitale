@@ -1,0 +1,70 @@
+import os
+import sys
+import json
+import unittest
+
+# Gestione percorsi per VS Code
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from Repos.preset_repos import PresetRepository
+
+class TestPresetRepository(unittest.TestCase):
+    def setUp(self):
+        
+        #Arrange: Prepariamo un percorso file temporaneo.
+        
+        self.test_path = "test_presets_debug.json"
+        # Pulizia preventiva
+        if os.path.exists(self.test_path):
+            os.remove(self.test_path)
+        self.repo = PresetRepository(path=self.test_path)
+
+    def tearDown(self):
+        
+        #Clean up: Rimuoviamo il file di test.
+        
+        if os.path.exists(self.test_path):
+            os.remove(self.test_path)
+
+    def test_aggiunta_e_salvataggio_preset(self):
+        
+        #Testa se aggiungendo un preset il file JSON viene creato e contiene i dati.
+        
+        # Act - NOTA: Usiamo crea_preset perché è il nome aggiornato nella Repo
+        dati_finti = [{"tipo": "Distorsione", "posizione": 0}]
+        self.repo.crea_preset("Preset_Rock", dati_finti)
+
+        # Assert
+        self.assertTrue(os.path.exists(self.test_path), "Il file JSON non è stato creato.")
+        
+        # Verifichiamo il contenuto leggendo direttamente il file
+        with open(self.test_path, "r", encoding='utf-8') as f:
+            contenuto = json.load(f)
+            self.assertIn("Preset_Rock", contenuto)
+            self.assertEqual(contenuto["Preset_Rock"][0]["tipo"], "Distorsione")
+
+    def test_caricamento_archivio_esistente(self):
+        
+        #Testa se all'inizializzazione la Repo carica correttamente i dati da un file pre-esistente.
+        
+        # Arrange: Creiamo un file JSON manualmente
+        dati_iniziali = {"Preset_Blues": [{"tipo": "Chorus", "posizione": 1}]}
+        with open(self.test_path, "w", encoding='utf-8') as f:
+            json.dump(dati_iniziali, f)
+
+        # Act: La repo chiama carica_archivio nel costruttore
+        nuova_repo = PresetRepository(path=self.test_path)
+
+        # Assert
+        preset_caricato = nuova_repo.get_preset("Preset_Blues")
+        self.assertIsNotNone(preset_caricato)
+        self.assertEqual(preset_caricato[0]["tipo"], "Chorus")
+
+    def test_get_preset_inesistente(self):
+        
+        #Verifica che la chiamata a un preset non salvato restituisca None.
+        
+        risultato = self.repo.get_preset("Preset_Fantasma")
+        self.assertIsNone(risultato)
+
+if __name__ == "__main__":
+    unittest.main()

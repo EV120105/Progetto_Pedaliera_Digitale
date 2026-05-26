@@ -1,4 +1,6 @@
-nella cartella "TracceAudioDaScaricare" sono contenute 
+E' necessario avere delle tracce audio all'interno del pc per poter testare il software 
+
+Nella cartella "TracceAudioDaScaricare" sono contenute 
 alcune tracce audio registrate con la chitarra (fender strat, no amp).
 Si suggerisce di scaricarle sul pc e caricarle all'interno
 del software per poter osservare correttamente

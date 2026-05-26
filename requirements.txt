@@ -1,0 +1,6 @@
+pygame-ce==2.5.7
+tinytag==2.2.1
+PyQt6==6.11.0
+PyQt6-Qt6==6.11.1
+PyQt6_sip==13.11.1
+numpy==2.4.5
